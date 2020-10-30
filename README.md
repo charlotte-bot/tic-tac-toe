@@ -1,11 +1,12 @@
 Tic Tac Toe:
-    Represent board with 2d array:
-        1. Outer array /w 3 inner arrays (that has 3 elements)
-        2. Function to print board
-    Inside:
-        1. Each element has -1, 0, 1
-        2. Simple game loop
-        3. Ask player for # of board space (0-9)
-        4. Use # to identify space, then insert symbol (human = x)
-        5. Print new board (so player can see the move)
-        6. repeat - no other player involved yet
+    Implement AI:
+        Go through every game state possible and select the best
+        Recursive algorithm
+
+        function when given a board and player:
+            gives a list of boards. each board containts every possible moves the player can make.
+            every time human makes move (before computer move):
+                look at board and make random move
+                recursively call same function and make move for human
+                repeat
+                (build tree of all possible moves)

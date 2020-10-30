@@ -72,42 +72,50 @@ def winner(round):
             print("game over. o won")
             return True
 
-    elif round == 9:
+    elif round == 9: #tie
         print("no one won, you're both losers.")
         return False
 
 def game():
     turn = 'x'
     round = 0
+    print_board()
 
     for i in range(9):
-        print_board()
 
         # human = x
         # robot = o
 
-        print(turn , ", where would you like to move?")
+        print("where would you like to move?")
         number = int(input())
 
         if board[number] == '':
             board[number] = turn
         else:
-            print("not available,", turn, ". you're turned was skipped.")
+            print("not available, x. your turn was skipped.")
         
+        if winner(round) == True:
+            break
+
+        print_board()
+
         if turn == 'x':
-            turn = 'o'
-        else:
-            turn = 'x'
+            print('making a move...')
+            moves = possible_moves(board)
+            if winner(round) == True:
+                break
 
         round += 1
 
-        if winner(round) == True:
-            break
-        else:
-            continue
-
-        break
-
     print_board()
 
+def possible_moves(board):
+    for k, v in board.items():
+        if board[k] == '':
+            board[k] = 'o'
+            print_board()
+            break
+    return k, v
+
+# possible_moves(board)
 game()
