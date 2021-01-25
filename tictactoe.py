@@ -12,21 +12,23 @@ def print_board():
     print('---------')
     print(board[1] , ' |' , board[2] , '|' , board[3])
 
-# Checks for a winner or a tie
-def check_winner(round, player):
-    if round > 4: 
-        for combo in winning_combos:
-            score = 0
-            for index in combo:
-                if board[index] == player:
-                    score += 1
-                if score == 3:
-                    print("game over. ", player, "won.")
-                    return True
-        if round == 9:
-            print("no one won, you're both losers.")
-            return True
+# Checks for a winner 
+def check_winner(board, player): 
+    for combo in winning_combos:
+        score = 0
+        for index in combo:
+            if board[index] == player:
+                score += 1
+            if score == 3:
+                return True
     return False
+
+# Checks for a tie
+def full_board(board):
+    for k, v in board.items():
+        if v == '':
+            return False
+    return True
 
 # the main function  
 def game(turn):
@@ -38,56 +40,74 @@ def game(turn):
         # Gets player's next move
         print("where would you like to move?")
         number = int(input())
-
-        # if the player chose an occupied space their turn is
-        # skipped, otherwise their turn is added to the board
-        if board[number] == '':
-            board[number] = turn
-        else:
-            print("not available, x. your turn was skipped.")
+        make_move(board, 'x', number)
+        
         
         round += 1
 
         # Checking for winners before moving onto the next player
-        if check_winner(round, turn) == True:
+        if check_winner(board, turn) == True:
+            print("game over. ", turn, "won.")
+            break
+        # Checking for a tie
+        if full_board(board) == True:
+            print("no one won, you're both losers.")
             break
         
         # Switches the player to 'o'
-        if turn == 'o':
-            turn = 'x'
-        else:
+        if turn == 'x':
             turn = 'o'
 
-        print_board()
-
         # Computer move
-        print('making a move...')
-        moves = possible_moves(board)
+        move = computer_moves(board)
+        make_move(board, turn, move)
 
+        print_board()
+        
         round += 1
 
         # Checking the winner before moving onto the next round
-        if check_winner(round, turn) == True:
+        if check_winner(board, turn) == True:
+            print("game over. ", turn, "won.")
             break
 
         # Switches the player to x
-        if turn == 'x':
-            turn = 'o'
-        else:
+        if turn == 'o':
             turn = 'x'
 
     print_board()
 
-# Finds all possible moves for the computer
-def possible_moves(board):
-    all_moves = []
+# Makes a move for the corresponding player
+# If the space is unavailible, the turn is skipped.
+def make_move(board, player, move):
+    if board[move] == '':
+        board[move] = player
+    else:
+        print("not available. your turn was skipped.")
 
+# Finds all possible moves for the computer
+def computer_moves(board):
+    # check if the computer can win
+    for k, v in board.items():
+        tmp = board.copy()
+        if v == '':
+            make_move(tmp, 'o', k)
+            if check_winner(tmp, 'o') == True:
+                return k
+    # check if the player can win and block them
+    for k, v in board.items():
+        tmp = board.copy()
+        if v == '':
+            make_move(tmp, 'x', k)
+            if check_winner(tmp, 'x') == True:
+                return k
+    # check for an open middle space
+    if board[5] == '':
+        return 5
+    # if all else fails, choose the first availible space
     for k, v in board.items():
         if v == '':
-            tmp = board.copy()
-            tmp[k] = 'o'
-            all_moves.append(tmp)
-    return all_moves
+            return k
 
 # Beginning of the game:
 print("Welcome To Tic Tac Toe!")
