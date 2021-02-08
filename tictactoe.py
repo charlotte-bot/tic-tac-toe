@@ -2,6 +2,7 @@ board = {7:'',8:'',9:'', 4:'',5:'',6:'', 1:'',2:'',3:''}
 
 winning_combos = [[7,8,9], [4,5,6], [1,2,3], [1,4,7], [2,5,8], [3,6,9], [3,5,7], [1,5,9]]
 
+# variable to keep track of who's turn it is and who needs to make a move
 turn = 'x'
 
 # function that prints to board.
@@ -30,7 +31,8 @@ def full_board(board):
             return False
     return True
 
-# the main function  
+# the main function
+#   
 def game(turn):
     round = 0
     print_board()
@@ -38,10 +40,7 @@ def game(turn):
     for i in range(9):
 
         # Gets player's next move
-        print("where would you like to move?")
-        number = int(input())
-        make_move(board, 'x', number)
-        
+        player_move(board)
         
         round += 1
 
@@ -77,13 +76,23 @@ def game(turn):
 
     print_board()
 
+# Asks where the player wants to make their move,
+# then calls the make_move() function to make that move.
+def player_move(board):
+    print("where would you like to move?")
+    number = int(input())
+    make_move(board, 'x', number)
+
 # Makes a move for the corresponding player
-# If the space is unavailible, the turn is skipped.
+# If the player chose an unavailible space, it
+# gets the player's new move.
 def make_move(board, player, move):
     if board[move] == '':
         board[move] = player
     else:
-        print("not available. your turn was skipped.")
+        print("that space isn't availbile. try again.")
+        if player == 'x':
+            player_move(board)
 
 # Finds all possible moves for the computer
 def computer_moves(board):
@@ -109,6 +118,12 @@ def computer_moves(board):
         if v == '':
             return k
 
-# Beginning of the game:
+# Beginning of the game
+# Explains how to play, then starts the game.
 print("Welcome To Tic Tac Toe!")
+print("How To play:")
+print("You are x and the computer is o. Your goal is to get 3 x's in a row before the computer gets 3 o's")
+print("Your will get the first move, then the computer will make its move.")
+print("To make a move press a number on your keyboard and it will put an x in the corresponding place")
+print("(1 is the bottom left and 9 is the top right)")
 game(turn)
