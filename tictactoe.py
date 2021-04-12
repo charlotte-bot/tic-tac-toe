@@ -5,7 +5,7 @@ winning_combos = [[7,8,9], [4,5,6], [1,2,3], [1,4,7], [2,5,8], [3,6,9], [3,5,7],
 # variable to keep track of who's turn it is and who needs to make a move
 turn = 'x'
 
-# function that prints to board.
+# function that prints to board
 def print_board():
     print(board[7] , ' |' , board[8] , '|' , board[9])
     print('---------')
@@ -32,7 +32,6 @@ def full_board(board):
     return True
 
 # the main function
-#   
 def game(turn):
     round = 0
     print_board()
@@ -77,7 +76,7 @@ def game(turn):
     print_board()
 
 # Asks where the player wants to make their move,
-# then calls the make_move() function to make that move.
+# then calls the make_move() function to make that move
 def player_move(board):
     print("where would you like to move?")
     number = int(input())
@@ -85,7 +84,7 @@ def player_move(board):
 
 # Makes a move for the corresponding player
 # If the player chose an unavailible space, it
-# gets the player's new move.
+# gets the player's new move
 def make_move(board, player, move):
     if board[move] == '':
         board[move] = player
@@ -119,7 +118,7 @@ def computer_moves(board):
             return k
 
 # Beginning of the game
-# Explains how to play, then starts the game.
+# Explains how to play, then starts the game
 print("Welcome To Tic Tac Toe!")
 print("How To play:")
 print("You are x and the computer is o. Your goal is to get 3 x's in a row before the computer gets 3 o's")
